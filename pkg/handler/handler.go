@@ -6,7 +6,7 @@ import (
 	"github.com/kirktriplefive/labsMed/pkg/service"
 )
 
-type HandlerInterface interface {
+type HandlerInterfacePatient interface {
 	CreatePatient(w http.ResponseWriter, r *http.Request)
 	CreatePatientRecord(w http.ResponseWriter, r *http.Request)
 	CreateDoctor(w http.ResponseWriter, r *http.Request)
@@ -16,9 +16,9 @@ type HandlerInterface interface {
 }
 
 type Handler struct {
-	HandlerInterface
+	HandlerInterfacePatient
 }
 
-func NewHandler(service *service.Service) *Handler {
+func NewHandlerPatient(service *service.ServicePatient) *Handler {
 	return &Handler{&PoliclinicHandler{*service}}
 }

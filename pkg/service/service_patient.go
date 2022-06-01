@@ -5,7 +5,7 @@ import (
 	"github.com/kirktriplefive/labsMed/pkg/repository"
 )
 
-type Polyclinic interface {
+type Patient interface {
 	CreatePatient(patient labsMed.Patient) (int, error)
 	CreatePatientRecord(record labsMed.Record) (int, error)
 	CreateDoctor(doctor labsMed.Doctor) (int, error)
@@ -14,12 +14,12 @@ type Polyclinic interface {
 	GetRecordOfPatient(int) ([]labsMed.Record, error)
 }
 
-type Service struct {
-	Polyclinic
+type ServicePatient struct {
+	Patient
 }
 
-func NewService(repos *repository.Repository) *Service {
-	return &Service{
-		Polyclinic: &PoliclinicService{*repos},
+func NewServicePatient(repos *repository.RepositoryPatient, repos_d *repository.RepositoryDoctor, repos_r *repository.RepositoryRecord) *ServicePatient {
+	return &ServicePatient{
+		Patient: &PatientService{*repos, *repos_d, *repos_r},
 	}
 }

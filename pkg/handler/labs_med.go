@@ -13,10 +13,10 @@ import (
 )
 
 type PoliclinicHandler struct {
-	service service.Polyclinic
+	service service.Patient
 }
 
-func NewPoliclinicHandler(service service.Polyclinic) *PoliclinicHandler {
+func NewPoliclinicHandler(service service.Patient) *PoliclinicHandler {
 	return &PoliclinicHandler{
 		service: service,
 	}
@@ -72,11 +72,13 @@ func (h *PoliclinicHandler) GetRecordOfPatient(w http.ResponseWriter, r *http.Re
 			HTTPStatusCode: http.StatusMethodNotAllowed,
 		})
 	} else {
-		patientId, err:=strconv.Atoi(id)
-		if err != nil {sendErrorResponse(w, r, &ErrorModel{
-			Error:          fmt.Errorf("id - число").Error(),
-			HTTPStatusCode: http.StatusMethodNotAllowed,
-		})}
+		patientId, err := strconv.Atoi(id)
+		if err != nil {
+			sendErrorResponse(w, r, &ErrorModel{
+				Error:          fmt.Errorf("id - число").Error(),
+				HTTPStatusCode: http.StatusMethodNotAllowed,
+			})
+		}
 		e, err := h.service.GetRecordOfPatient(patientId)
 		if err != nil {
 			sendErrorResponse(w, r, &ErrorModel{
